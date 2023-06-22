@@ -1,0 +1,16 @@
+{
+    "appTitle": "Test",
+
+    "films": "Películas",
+    "details": "Detalles",
+
+    "lenguage": "Idioma",
+    "spanish": " Español",
+    "english": " Inglés",
+
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "details": "Show details",
+
+    "responseerror": "An error occurred while receiving the response from the service!"
+}

@@ -1,0 +1,17 @@
+{
+    "appTitle": "Prueba",
+
+    "films": "Films",
+    "details": "Details",
+
+    "lenguage": "Lenguage",
+    "spanish": " Español",
+    "english": " Inglés",
+
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "details": "Mostrar detalles",
+
+    "responseerror": "Ocurrió un error al recibir la respuesta del servicio!"
+
+}
