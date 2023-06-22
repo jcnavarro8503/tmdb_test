@@ -23,42 +23,47 @@ class FilmsCubit extends Cubit<FilmsState> {
   }
 
   void getFilms() async {
+    debugPrint('get films ...');
+
     final response = await filmsRepository.getFilms();
 
     response.fold(
       (failure) {
         debugPrint('failure');
-        emit(const FilmsStandardState(
-          fimls: <FilmEntity>[],
-          selectedFilm: null,
+        emit(FilmsStandardState(
+          films: const <FilmEntity>[],
+          selectedFilm: FilmDetailsEntity.empty(),
         ));
       },
       (data) async {
         debugPrint('success');
 
         emit(FilmsStandardState(
-          fimls: data,
+          films: data,
+          selectedFilm: FilmDetailsEntity.empty(),
         ));
       },
     );
   }
 
   void showDetails(int id) async {
+    debugPrint('get film details ...');
+
     final response = await filmsRepository.getFilmDetails(id);
 
     response.fold(
       (failure) {
         debugPrint('failure');
         emit(FilmsStandardState(
-          fimls: (state as FilmsStandardState).fimls,
-          selectedFilm: null,
+          films: (state as FilmsStandardState).films,
+          selectedFilm: FilmDetailsEntity.empty(),
         ));
       },
       (data) async {
         debugPrint('success');
 
         emit(FilmsStandardState(
-          fimls: (state as FilmsStandardState).fimls,
+          films: (state as FilmsStandardState).films,
           selectedFilm: data,
         ));
       },

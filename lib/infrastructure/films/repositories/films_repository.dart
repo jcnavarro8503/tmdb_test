@@ -21,8 +21,8 @@ class FilmsRepository with ErrorHandling<Failure> {
     });
   }
 
-  Future<Either<Failure, FilmEntity>> getFilmDetails(int id) async {
-    return process<FilmEntity>(action: () async {
+  Future<Either<Failure, FilmDetailsEntity>> getFilmDetails(int id) async {
+    return process<FilmDetailsEntity>(action: () async {
       try {
         return await remote.getFilmDetailsData(id);
       } catch (ex) {

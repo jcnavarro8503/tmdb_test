@@ -10,31 +10,28 @@ class FilmsRemoteDataSource {
 
   Future<List<FilmEntity>> getFilmsData() async {
     try {
-      final response = await networkHandler.get(
-          path: 'get-popular-movies', params: '?api_key=${AppKeys.tmdbKey}');
+      final response = await networkHandler.get(path: 'popular');
       Map data = json.decode(response.body);
 
-      if (data['isSuccess']) {
-        List<FilmEntity> immovables =
-            (data['result'] as List).map((item) => FilmEntity.fromJson(item)).toList();
-        return immovables;
+      if (response.statusCode == 200) {
+        List<FilmEntity> films =
+            (data['results'] as List).map((item) => FilmEntity.fromJson(item)).toList();
+        return films;
       }
-      throw ResponseException(0, data['errorMessage']);
+      throw ResponseException(0, 'Error');
     } catch (ex) {
       rethrow;
     }
   }
 
-  Future<FilmEntity> getFilmDetailsData(int id) async {
+  Future<FilmDetailsEntity> getFilmDetailsData(int id) async {
     try {
-      final response = await networkHandler.get(
-          path: 'get-movie-details/$id', params: '?api_key=${AppKeys.tmdbKey}');
-      Map data = json.decode(response.body);
+      final response = await networkHandler.get(params: '$id');
 
-      if (data['isSuccess']) {
-        return FilmEntity.fromJson(data['Data']);
+      if (response.statusCode == 200) {
+        return FilmDetailsEntity.fromJson(json.decode(response.body));
       }
-      throw ResponseException(0, data['errorMessage']);
+      throw ResponseException(0, 'Error');
     } catch (ex) {
       rethrow;
     }

@@ -10,14 +10,14 @@ abstract class FilmsState extends Equatable {
 class FilmsInitialState extends FilmsState {}
 
 class FilmsStandardState extends FilmsState {
-  final List<FilmEntity> fimls;
-  final FilmEntity? selectedFilm;
+  final List<FilmEntity> films;
+  final FilmDetailsEntity selectedFilm;
 
   const FilmsStandardState({
-    required this.fimls,
-    this.selectedFilm,
+    required this.films,
+    required this.selectedFilm,
   });
 
   @override
-  List<Object> get props => [fimls];
+  List<Object> get props => [films, selectedFilm];
 }

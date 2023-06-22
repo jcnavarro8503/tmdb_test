@@ -6,7 +6,7 @@ import 'package:tmdb_test/presentation/index.dart';
 import 'package:tmdb_test/tools/index.dart';
 
 class FilmsPage extends StatefulWidget {
-  static const routeName = 'fimls_page';
+  static const routeName = 'films_page';
   const FilmsPage({Key? key}) : super(key: key);
 
   @override
@@ -42,49 +42,47 @@ class FilmsPageState extends State<FilmsPage> with WidgetsBindingObserver {
         debugPrint(state.toString());
 
         if (state is FilmsStandardState) {
-          if (state.selectedFilm != null) {
+          if (state.selectedFilm.id != 0) {
             Navigator.of(context).pushNamed(AppRoutes.detailsRoute);
           }
         }
       },
       builder: (context, state) {
-        if (state is FilmsStandardState) {
-          return WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: Scaffold(
-              key: _scaffoldKey,
-              appBar: AppBar(
-                shadowColor: Colors.transparent,
-                backgroundColor: AppColors.primaryColor,
-                title: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  child: Text('Películas'),
-                ),
-              ),
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<FilmsCubit>().getFilms();
-                },
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.fimls.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return FilmListItemWidget(
-                      film: state.fimls[index],
-                      showDetails: () {
-                        context.read<FilmsCubit>().showDetails(state.fimls[index].id);
-                      },
-                    );
-                  },
-                ),
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              shadowColor: Colors.transparent,
+              backgroundColor: AppColors.primaryColor,
+              title: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                child: Text('Películas'),
               ),
             ),
-          );
-        }
-
-        return const Center(child: CircularProgressIndicator());
+            body: (state is FilmsStandardState)
+                ? RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<FilmsCubit>().getFilms();
+                    },
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.films.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return FilmListItemWidget(
+                          film: state.films[index],
+                          showDetails: () {
+                            context.read<FilmsCubit>().showDetails(state.films[index].id);
+                          },
+                        );
+                      },
+                    ),
+                  )
+                : const Center(child: CircularProgressIndicator()),
+          ),
+        );
       },
     );
   }

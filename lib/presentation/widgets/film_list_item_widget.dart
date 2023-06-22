@@ -30,34 +30,99 @@ class FilmListItemWidgetState extends State<FilmListItemWidget> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        top: widget.padding,
-        right: widget.padding,
-        bottom: widget.padding + 10,
-        left: widget.padding,
-      ),
-      child: Card(
-        elevation: 5,
-        color: AppColors.lightColor,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 10,
-          ),
-          child: ListTile(
-            onTap: () => widget.showDetails!,
-            contentPadding: const EdgeInsets.all(5),
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-            title: Text(
-              widget.film.name,
-              style: AppStyle.mediumBlackText,
+    return GestureDetector(
+      onTap: () {
+        if (widget.showDetails != null) {
+          widget.showDetails!();
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: widget.padding,
+          right: widget.padding,
+          bottom: widget.padding + 10,
+          left: widget.padding,
+        ),
+        child: Card(
+          elevation: 5,
+          color: AppColors.lightColor,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
             ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                widget.film.description,
-                style: AppStyle.smallBlackText,
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(5),
+              shape:
+                  const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+              leading: Container(
+                width: size.width * .2,
+                height: size.width * .2,
+                color: AppColors.lightColor,
+                child: widget.film.posterPath.isNotEmpty
+                    ? FadeInImage(
+                        image:
+                            NetworkImage('${AppEndpoints.tmdbMediaBase}${widget.film.posterPath}'),
+                        placeholder: const AssetImage('assets/no_image.jpg'),
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/no_image.jpg',
+                        fit: BoxFit.cover,
+                      ),
               ),
+              title: Text(
+                widget.film.title,
+                style: AppStyle.mediumBlackText,
+              ),
+              subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.film.releaseDate,
+                        style: AppStyle.regularBlackText,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          widget.film.overview,
+                          style: AppStyle.smallBlackText,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.group),
+                                const SizedBox(width: 3),
+                                Text(widget.film.popularity.toString()),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.line_axis),
+                                const SizedBox(width: 3),
+                                Text(widget.film.voteAverage.toString()),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.thumb_up),
+                                const SizedBox(width: 3),
+                                Text(widget.film.voteCount.toString()),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
             ),
           ),
         ),

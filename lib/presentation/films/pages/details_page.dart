@@ -35,22 +35,25 @@ class DetailsPageState extends State<DetailsPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return BlocConsumer<FilmsCubit, FilmsState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is FilmsStandardState) {
           return WillPopScope(
             onWillPop: () async {
-              return false;
+              context.read<FilmsCubit>().getFilms();
+              return true;
             },
             child: Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
                 shadowColor: Colors.transparent,
                 backgroundColor: AppColors.primaryColor,
-                title: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  child: Text('Detalles'),
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  child: Text(state.selectedFilm.title),
                 ),
               ),
               body: ListView(
@@ -58,14 +61,69 @@ class DetailsPageState extends State<DetailsPage> with WidgetsBindingObserver {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text(
-                      state.selectedFilm!.name,
-                      style: AppStyle.mediumBlackText,
+                      state.selectedFilm.releaseDate,
+                      style: AppStyle.bigBlackText,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      width: size.width,
+                      color: AppColors.lightColor,
+                      child: state.selectedFilm.posterPath.isNotEmpty
+                          ? FadeInImage(
+                              image: NetworkImage(
+                                  '${AppEndpoints.tmdbMediaBase}${state.selectedFilm.posterPath}'),
+                              placeholder: const AssetImage('assets/no_image.jpg'),
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/no_image.jpg',
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.group),
+                              const SizedBox(width: 3),
+                              Text(state.selectedFilm.popularity.toString()),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.line_axis),
+                              const SizedBox(width: 3),
+                              Text(state.selectedFilm.voteAverage.toString()),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.thumb_up),
+                              const SizedBox(width: 3),
+                              Text(state.selectedFilm.voteCount.toString()),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text(
-                      state.selectedFilm!.description,
+                      state.selectedFilm.overview,
                       style: AppStyle.regularBlackText,
                     ),
                   )

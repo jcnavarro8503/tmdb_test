@@ -7,8 +7,7 @@ class NetworkHandler {
   ///Returns the common headers with authentication values
   Future<Map<String, String>> _commonHeaders() async {
     return {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'accept': 'application/json',
       'Authorization': 'Bearer ${AppKeys.tmdbAccessToken}',
     };
   }
@@ -24,8 +23,8 @@ class NetworkHandler {
 
     try {
       debugPrint("-> GET: $url");
-      //debugPrint("-> HEADERS: $_headers");
-      final res = await http.get(uri, headers: headers).timeout(const Duration(seconds: 15));
+      debugPrint("-> HEADERS: $headers");
+      final res = await http.get(uri, headers: headers);
       debugPrint("<- RESPONSE CODE: ${res.statusCode}");
       debugPrint("<- RESPONSE BODY: ${res.body}");
 
@@ -47,10 +46,9 @@ class NetworkHandler {
 
     try {
       debugPrint("-> POST: $url");
-      //debugPrint("-> HEADERS: $_headers");
+      debugPrint("-> HEADERS: $headers");
       debugPrint("-> BODY: $body");
-      final res =
-          await http.post(uri, headers: headers, body: body).timeout(const Duration(seconds: 15));
+      final res = await http.post(uri, headers: headers, body: body);
       debugPrint("<- RESPONSE CODE: ${res.statusCode}");
       debugPrint("<- RESPONSE BODY: ${res.body}");
 
@@ -73,10 +71,9 @@ class NetworkHandler {
 
     try {
       debugPrint("-> PUT: $url");
-      //debugPrint("-> HEADERS: $_headers");
+      debugPrint("-> HEADERS: $headers");
       debugPrint("-> BODY: $body");
-      final res =
-          await http.put(uri, headers: headers0, body: body).timeout(const Duration(seconds: 15));
+      final res = await http.put(uri, headers: headers0, body: body);
       debugPrint("<- RESPONSE CODE: ${res.statusCode}");
       debugPrint("<- RESPONSE BODY: ${res.body}");
 
@@ -98,8 +95,8 @@ class NetworkHandler {
 
     try {
       debugPrint("-> DELETE: $url");
-      //debugPrint("-> HEADERS: $_headers");
-      final res = await http.delete(uri, headers: headers0).timeout(const Duration(seconds: 15));
+      debugPrint("-> HEADERS: $headers");
+      final res = await http.delete(uri, headers: headers0);
       debugPrint("<- RESPONSE CODE: ${res.statusCode}");
       debugPrint("<- RESPONSE BODY: ${res.body}");
 

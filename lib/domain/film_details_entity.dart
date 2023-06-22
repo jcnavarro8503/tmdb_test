@@ -1,4 +1,4 @@
-class FilmEntity {
+class FilmDetailsEntity {
   final int id;
   final String title;
   final String overview;
@@ -9,7 +9,7 @@ class FilmEntity {
   final double voteAverage;
   final int voteCount;
 
-  FilmEntity({
+  FilmDetailsEntity({
     required this.id,
     required this.title,
     required this.overview,
@@ -23,11 +23,25 @@ class FilmEntity {
 
   @override
   String toString() {
-    return 'FilmEntity { id: $id, title: $title, overview: $overview }';
+    return 'FilmDetailsEntity { id: $id, title: $title, overview: $overview }';
   }
 
-  static FilmEntity fromJson(Map<String, dynamic> json) {
-    return FilmEntity(
+  factory FilmDetailsEntity.empty() {
+    return FilmDetailsEntity(
+      id: 0,
+      title: '',
+      overview: '',
+      posterPath: '',
+      backdropPath: '',
+      releaseDate: '',
+      popularity: 0,
+      voteAverage: 0,
+      voteCount: 0,
+    );
+  }
+
+  static FilmDetailsEntity fromJson(Map<String, dynamic> json) {
+    return FilmDetailsEntity(
       id: json['id'],
       title: json['title'],
       overview: json['overview'],
