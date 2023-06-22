@@ -75,7 +75,7 @@ class DetailsPageState extends State<DetailsPage> with WidgetsBindingObserver {
           );
         }
 
-        return const Center(child: CircularProgressIndicator());
+        return Container();
       },
     );
   }
